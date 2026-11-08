@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom'; // <-- IMPORT LINK
+
 export default function Footer() {
   return (
     <footer className="site-footer" id="contact">
@@ -24,25 +26,24 @@ export default function Footer() {
           <div>
             <h4 className="footer-title">Quick Links</h4>
             <ul className="footer-links">
-              <li><a href="#order">Order Online</a></li>
-              <li><a href="#story">Our Heritage</a></li>
-              <li><a href="#menu">Signature Menu</a></li>
+              <li><Link to="/order">Order Online</Link></li>
+              <li><Link to="/about">Our Heritage</Link></li>
+              <li><Link to="/#menu">Signature Menu</Link></li>
             </ul>
           </div>
 
           <div>
-            <h4 className="footer-title">Opening Hours</h4>
+            <h4 className="footer-title">Legal</h4>
             <ul className="footer-links">
-              <li>Mon – Thu: 12pm – 11pm</li>
-              <li>Fri – Sat: 12pm – 12am</li>
-              <li>Sunday: 12pm – 10pm</li>
+              <li><Link to="/privacy">Datenschutzerklärung</Link></li>
+              <li><Link to="/revocation">Widerrufsbelehrung</Link></li>
             </ul>
           </div>
 
           <div>
             <h4 className="footer-title">Visit Us</h4>
-            <p className="footer-links">12 Marine Drive, Fort,<br/>Mumbai 400 001</p>
-            <p className="footer-links">+91 98200 12345</p>
+            <p className="footer-links">Bloherfelder Str. 66,<br/>26129 Oldenburg</p>
+            <p className="footer-links">+49 441 18005527</p>
           </div>
         </div>
         

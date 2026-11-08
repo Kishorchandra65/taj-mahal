@@ -1,10 +1,13 @@
 import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useCart } from '../../context/CartContext';
 
 export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const { cartCount, setIsCartOpen } = useCart();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -13,34 +16,55 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
+  // Function to handle smooth scrolling to the reservation section
+  const handleReserveClick = (e) => {
+    e.preventDefault();
+    setMobileOpen(false); // Close mobile menu if open
+    
+    if (location.pathname !== '/') {
+      // If not on home page, navigate to home first, then scroll
+      navigate('/');
+      setTimeout(() => {
+        const el = document.getElementById('reserve');
+        if (el) el.scrollIntoView({ behavior: 'smooth' });
+      }, 100);
+    } else {
+      // If already on home page, just scroll down
+      const el = document.getElementById('reserve');
+      if (el) el.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
   const links = [
-    { href: '#', label: 'Home' },
-    { href: '#order', label: 'Online Order' },
-    { href: '#story', label: 'Our Story' },
-    { href: '#contact', label: 'Contact' },
+    { path: '/', label: 'Home' },
+    { path: '/order', label: 'Online Bestellen' },
+    { path: '/about', label: 'Über Uns' },
+    { path: '/contact', label: 'Kontakt' },
   ];
 
   return (
     <>
       <header className={`site-header ${scrolled ? 'scrolled' : ''}`}>
         <div className="container nav-container">
-          {/* Logo */}
-          <a href="#" className="brand-logo">
+          <Link to="/" className="brand-logo">
             <div className="brand-crest-img">
               <img src="/tajlogo.png" alt="Taj Mahal logo" />
             </div>
-          </a>
+          </Link>
 
-          {/* Desktop Links */}
           <nav className="desktop-nav">
             {links.map((l) => (
-              <a key={l.label} href={l.href} className="nav-link">{l.label}</a>
+              <Link 
+                key={l.label} 
+                to={l.path} 
+                className={`nav-link ${location.pathname === l.path ? 'active' : ''}`}
+              >
+                {l.label}
+              </Link>
             ))}
           </nav>
 
-          {/* Actions */}
           <div className="nav-actions">
-            {/* Cart */}
             <button onClick={() => setIsCartOpen(true)} className="cart-btn">
               <svg viewBox="0 0 24 24" width="24" height="24" stroke="currentColor" strokeWidth="2" fill="none">
                 <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -50,12 +74,15 @@ export default function Navbar() {
               {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
             </button>
 
-            {/* Reserve Button (Desktop) */}
-            <a href="#reserve" className="btn btn-primary desktop-reserve-btn" style={{ padding: '0.8rem 1.8rem', fontSize: '0.75rem' }}>
-              Reserve
-            </a>
+            {/* Updated Reserve Button to scroll to #reserve */}
+            <button 
+              onClick={handleReserveClick} 
+              className="btn btn-primary desktop-reserve-btn" 
+              style={{ padding: '0.8rem 1.8rem', fontSize: '0.75rem' }}
+            >
+              Reservieren
+            </button>
             
-            {/* Mobile Menu Toggle */}
             <button className="menu-toggle-btn" onClick={() => setMobileOpen(!mobileOpen)}>
               <span /><span /><span />
             </button>
@@ -71,16 +98,21 @@ export default function Navbar() {
         </div>
         <nav className="mobile-nav-links">
           {links.map((l) => (
-            <a key={l.label} href={l.href} className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
+            <Link key={l.label} to={l.path} className="mobile-nav-link" onClick={() => setMobileOpen(false)}>
               {l.label}
-            </a>
+            </Link>
           ))}
         </nav>
-        {/* Reserve Button (Mobile Drawer) */}
+        
+        {/* Added Reserve button to Mobile Drawer */}
         <div style={{ marginTop: 'auto' }}>
-          <a href="#reserve" className="btn btn-primary" style={{ width: '100%' }} onClick={() => setMobileOpen(false)}>
-            Reserve a Table
-          </a>
+          <button 
+            onClick={handleReserveClick} 
+            className="btn btn-primary" 
+            style={{ width: '100%' }}
+          >
+            Tisch Reservieren
+          </button>
         </div>
       </aside>
     </>

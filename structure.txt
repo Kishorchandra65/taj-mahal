@@ -1,0 +1,51 @@
+.
+├── index.html
+├── package.json
+├── package-lock.json
+├── public
+│   ├── favicon.jpeg
+│   ├── RestaurantGuru_Certificate.png
+│   └── tajlogo.png
+├── src
+│   ├── App.jsx
+│   ├── assets
+│   │   └── images
+│   ├── components
+│   │   ├── common
+│   │   │   ├── CartDrawer.jsx
+│   │   │   ├── Footer.jsx
+│   │   │   ├── Loader.jsx
+│   │   │   ├── Navbar.jsx
+│   │   │   └── ScrollToTop.jsx
+│   │   └── home
+│   │       ├── BestOffers.jsx
+│   │       ├── BestSellers.jsx
+│   │       ├── Categories.jsx
+│   │       ├── Featured.jsx
+│   │       ├── Hero.jsx
+│   │       ├── Marquee.jsx
+│   │       ├── Newsletter.jsx
+│   │       ├── OnlineOrder.jsx
+│   │       ├── PhotoStream.jsx
+│   │       ├── Pillars.jsx
+│   │       ├── Stats.jsx
+│   │       ├── StoryTeaser.jsx
+│   │       └── Testimonials.jsx
+│   ├── context
+│   │   └── CartContext.jsx
+│   ├── data
+│   │   └── products.js
+│   ├── main.jsx
+│   ├── pages
+│   │   ├── AboutPage.jsx
+│   │   ├── ContactPage.jsx
+│   │   ├── HomePage.jsx
+│   │   ├── OrderPage.jsx
+│   │   ├── PrivacyPage.jsx
+│   │   └── RevocationPage.jsx
+│   └── styles
+│       └── globals.css
+├── structure.txt
+└── vite.config.js
+
+12 directories, 37 files
