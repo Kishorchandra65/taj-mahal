@@ -16,20 +16,17 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
-  // Function to handle smooth scrolling to the reservation section
   const handleReserveClick = (e) => {
     e.preventDefault();
-    setMobileOpen(false); // Close mobile menu if open
+    setMobileOpen(false);
     
     if (location.pathname !== '/') {
-      // If not on home page, navigate to home first, then scroll
       navigate('/');
       setTimeout(() => {
         const el = document.getElementById('reserve');
         if (el) el.scrollIntoView({ behavior: 'smooth' });
       }, 100);
     } else {
-      // If already on home page, just scroll down
       const el = document.getElementById('reserve');
       if (el) el.scrollIntoView({ behavior: 'smooth' });
     }
@@ -48,6 +45,7 @@ export default function Navbar() {
         <div className="container nav-container">
           <Link to="/" className="brand-logo">
             <div className="brand-crest-img">
+              {/* FIXED: Changed .jpeg to .png */}
               <img src="/tajlogo.png" alt="Taj Mahal logo" />
             </div>
           </Link>
@@ -74,7 +72,6 @@ export default function Navbar() {
               {cartCount > 0 && <span className="cart-badge">{cartCount}</span>}
             </button>
 
-            {/* Updated Reserve Button to scroll to #reserve */}
             <button 
               onClick={handleReserveClick} 
               className="btn btn-primary desktop-reserve-btn" 
@@ -94,7 +91,8 @@ export default function Navbar() {
       <div className={`mobile-nav-backdrop ${mobileOpen ? 'open' : ''}`} onClick={() => setMobileOpen(false)} />
       <aside className={`mobile-nav-drawer ${mobileOpen ? 'open' : ''}`}>
         <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
-           <img src="/tajlogo.jpeg" alt="Logo" style={{ width: '100px' }} />
+           {/* FIXED: Changed .jpeg to .png */}
+           <img src="/tajlogo.png" alt="Logo" style={{ width: '100px' }} />
         </div>
         <nav className="mobile-nav-links">
           {links.map((l) => (
@@ -103,8 +101,6 @@ export default function Navbar() {
             </Link>
           ))}
         </nav>
-        
-        {/* Added Reserve button to Mobile Drawer */}
         <div style={{ marginTop: 'auto' }}>
           <button 
             onClick={handleReserveClick} 
