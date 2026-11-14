@@ -1,18 +1,37 @@
 import { useState } from 'react';
+import API from '../api/axios'; // <-- IMPORT API
 
 export default function ContactPage() {
   const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+  
+  // Form State
+  const [formData, setFormData] = useState({
+    name: '', email: '', subject: '', message: ''
+  });
 
-  const handleSubmit = (e) => {
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSubmitted(true);
-    setTimeout(() => setSubmitted(false), 5000);
+    setLoading(true);
+    try {
+      await API.post('/contact', formData); // <-- SEND TO BACKEND
+      setSubmitted(true);
+      setTimeout(() => setSubmitted(false), 5000);
+      setFormData({ name: '', email: '', subject: '', message: '' });
+    } catch (error) {
+      console.error("Error sending message:", error);
+      alert("Something went wrong. Please try again.");
+    }
+    setLoading(false);
   };
 
   return (
     <main style={{ paddingTop: '100px', minHeight: '100vh', background: 'var(--bg-main)' }}>
       
-      {/* --- HERO SECTION --- */}
       <section className="contact-hero">
         <div className="container">
           <span className="section-subtitle">Kontakt</span>
@@ -25,12 +44,11 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* --- MAIN CONTACT SECTION --- */}
       <section className="contact-main-section">
         <div className="container">
           <div className="contact-layout">
             
-            {/* Left Side: Contact Info */}
+            {/* Left Side: Contact Info (Unchanged) */}
             <div className="contact-info-panel">
               <h2 className="contact-panel-title">Besuchen Sie uns</h2>
               
@@ -86,26 +104,26 @@ export default function ContactPage() {
                   <div className="form-row">
                     <div className="form-group">
                       <label>Ihr Name</label>
-                      <input type="text" className="form-input" required />
+                      <input type="text" name="name" value={formData.name} onChange={handleChange} className="form-input" required />
                     </div>
                     <div className="form-group">
                       <label>Ihre E-Mail</label>
-                      <input type="email" className="form-input" required />
+                      <input type="email" name="email" value={formData.email} onChange={handleChange} className="form-input" required />
                     </div>
                   </div>
 
                   <div className="form-group">
                     <label>Betreff</label>
-                    <input type="text" className="form-input" required />
+                    <input type="text" name="subject" value={formData.subject} onChange={handleChange} className="form-input" required />
                   </div>
 
                   <div className="form-group">
                     <label>Ihre Nachricht</label>
-                    <textarea className="form-input form-textarea" rows="6" required></textarea>
+                    <textarea name="message" value={formData.message} onChange={handleChange} className="form-input form-textarea" rows="6" required></textarea>
                   </div>
 
-                  <button type="submit" className="btn btn-primary" style={{ width: '100%' }}>
-                    Nachricht Senden
+                  <button type="submit" className="btn btn-primary" style={{ width: '100%' }} disabled={loading}>
+                    {loading ? 'Sending...' : 'Nachricht Senden'}
                   </button>
                 </form>
               )}
@@ -115,7 +133,6 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* --- MAP SECTION --- */}
       <section className="contact-map-section">
         <div className="container">
           <div className="map-wrapper">
